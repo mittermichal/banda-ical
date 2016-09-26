@@ -1,4 +1,5 @@
-from icalendar import Calendar, Event
+#from icalendar import Calendar, Event
+from ics import Calendar, Event
 from urllib.request import urlretrieve
 from lxml import etree
 import os
@@ -67,21 +68,23 @@ def getCal(regex):
       print(location)
 
 
-      event = Event()
-      event['dtstart'] = start_time
-      event['dtend'] = end_time
-      event['summary']=title
-      event['location']=location
+      event = Event(location=location)
+      event.name=title
+      event.begin = start_time
+      event.end = end_time
 
-      cal.add_component(event)
-
-
-  return display(cal)
+      cal.events.append(event)
 
   with open(details_cache,'w',encoding='utf-8') as d:
     for detail in details:
       for col in detail:
         d.write(col+'\t')
       d.write('\n')
+
+  with open('my.ics', 'w') as my_file:
+    my_file.writelines(cal)
+
+  return
+
 
 
