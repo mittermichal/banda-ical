@@ -1,5 +1,5 @@
 from icalendar import Calendar, Event
-from urllib.request import urlopen, urlretrieve
+from urllib.request import urlretrieve
 from lxml import etree
 import os
 import time
