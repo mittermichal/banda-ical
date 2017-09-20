@@ -1,5 +1,5 @@
 from flask import Flask, send_from_directory
-from parser import getCal
+from banda_parser import getCal
 
 flask_app = Flask(__name__)
 

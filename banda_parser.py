@@ -6,6 +6,7 @@ import os
 import time
 import re
 import datetime
+import arrow
 
 def display(cal):
   return cal.to_ical().decode('utf-8').replace('\r\n', '\n').strip()
@@ -53,8 +54,10 @@ def getCal(regex):
         end_time=datetime.datetime.strptime(interval[1], "%H:%M")
         end_time=end_time.replace(day=start_time.day,month=start_time.month,year=start_time.year)
       #print(dir(event[1][0]))
-      #print(start_time,' - ',end_time)
+      print(start_time,' - ',end_time)
+
       #print('')
+
       find=list(filter(lambda x: x[1]==url,details))
       if len(find):
         location=find[0][0]
@@ -70,8 +73,8 @@ def getCal(regex):
 
       event = Event(location=location)
       event.name=title
-      event.begin = start_time
-      event.end = end_time
+      event.begin = arrow.get(start_time,'Europe/Prague')
+      event.end = arrow.get(end_time,'Europe/Prague')
 
       cal.events.append(event)
 
@@ -81,7 +84,7 @@ def getCal(regex):
         d.write(col+'\t')
       d.write('\n')
 
-  with open('my.ics', 'w') as my_file:
+  with open('my.ics', 'w', encoding='utf-8') as my_file:
     my_file.writelines(cal)
 
   return
